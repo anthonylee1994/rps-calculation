@@ -16,10 +16,11 @@ def calc_rps(close: pd.DataFrame, periods: list[int] = [120, 250]) -> pd.DataFra
     results: dict[str, pd.DataFrame] = {}
 
     for n in periods:
-        # Calculate N-day returns
         returns: pd.DataFrame = close.pct_change(periods=n)
-        # Rank returns (percentile 0-100)
-        rps: pd.DataFrame = returns.rank(axis=1, pct=True) * 100
+        ranks: pd.DataFrame = returns.rank(
+            axis=1, ascending=False, method="min")
+        counts: pd.Series = returns.notna().sum(axis=1)
+        rps: pd.DataFrame = (1 - ranks.div(counts, axis=0)) * 100
         results[f"RPS_{n}"] = rps.round(2)
 
     data: pd.DataFrame = pd.concat(results, axis=1)
