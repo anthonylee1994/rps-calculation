@@ -5,11 +5,11 @@ from price_data import get_close_prices
 def calc_rps(close: pd.DataFrame, periods: list[int] = [120, 250]) -> pd.DataFrame:
     """
     Calculate Relative Price Strength (RPS) for given periods.
-    
+
     Args:
         close: DataFrame of close prices.
         periods: List of periods (days) to calculate RPS for.
-        
+
     Returns:
         DataFrame containing RPS values.
     """
@@ -34,13 +34,13 @@ def screen_rps(
         check_rising: bool = True) -> pd.DataFrame:
     """
     Screen stocks based on RPS thresholds and trend.
-    
+
     Args:
         rps_df: DataFrame containing RPS_120 and RPS_250 columns.
         threshold_120: Minimum RPS_120 value.
         threshold_250: Minimum RPS_250 value.
         check_rising: If True, requires current RPS to be higher than 10 days ago.
-        
+
     Returns:
         Filtered DataFrame sorted by RPS_120.
     """
@@ -80,7 +80,7 @@ def screen_rps(
 
 def main():
     print("🚀 Starting RPS Calculation...")
-    
+
     # 1. Get Data
     try:
         prices: pd.DataFrame = get_close_prices()
@@ -94,7 +94,7 @@ def main():
     # 2. Calculate RPS
     print("📈 Calculating RPS...")
     rps_df: pd.DataFrame = calc_rps(prices, periods=[120, 250])
-    
+
     # Optional: Save to CSV
     # rps_df.to_csv("rps.csv")
 
@@ -110,9 +110,9 @@ def main():
     # 4. Screen for Strong Stocks
     print("\n🔍 Screening for strong stocks (RPS >= 80 & Rising)...")
     screened: pd.DataFrame = screen_rps(
-        rps_df, 
-        threshold_120=80, 
-        threshold_250=80, 
+        rps_df,
+        threshold_120=80,
+        threshold_250=80,
         check_rising=True
     )
 
