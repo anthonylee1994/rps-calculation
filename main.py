@@ -20,8 +20,7 @@ def calc_rps(close: pd.DataFrame, periods: list = [120, 250]) -> pd.DataFrame:
 def screen_rps(
         rps_df: pd.DataFrame = None,
         threshold_120: float = 80,
-        threshold_250: float = 80,
-        require_rising: bool = True) -> pd.DataFrame:
+        threshold_250: float = 80) -> pd.DataFrame:
 
     latest_120 = rps_df["RPS_120"].iloc[-1]
     latest_250 = rps_df["RPS_250"].iloc[-1]
@@ -49,9 +48,7 @@ latest_250 = rps_df["RPS_250"].iloc[-1]
 latest_250 = latest_250.sort_values(ascending=False)
 print(f"Latest RPS_250: {latest_250}")
 
-
-screened = screen_rps(rps_df, threshold_120=80,
-                      threshold_250=80, require_rising=False)
+screened = screen_rps(rps_df, threshold_120=80, threshold_250=80)
 
 print(f"\n📊 RPS雙週期 ≥80 且上升的強勢股（共 {len(screened)} 隻）：\n")
 print(screened.to_string())

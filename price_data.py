@@ -17,6 +17,6 @@ def get_close_prices():
         progress=False
     )["Close"]
 
-    result = result.dropna(axis=1, thresh=int(len(result) * 0.9))
+    result = result.dropna(axis=1, how="any")
 
     return result
